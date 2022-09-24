@@ -6,13 +6,41 @@ Checkout
 Subtotal
 StateProvider
 reducer                     //it is how we are able to dispatch data to dataLayer and push back to required component
+Login
+Firebase Auth
+.
+.
+..
 
 
-npx create-react-app app-name
-npm install -g firebase-tools    //setsup firebase
-npm install @mui/material @emotion/react @emotion/styled //This installs material ui dependencies
-npm install @mui/icons-material  //THis installs icon pack
-npm install react-router-dom  //THis helps in routing different components to different pages
-npm i react-currency-format   //This will allow you to go ahead an show money
+>npx create-react-app app-name
+>npm install -g firebase-tools    //setsup firebase
+>npm install @mui/material @emotion/react @emotion/styled //This installs material ui dependencies
+>npm install @mui/icons-material  //THis installs icon pack
+>npm install react-router-dom  //THis helps in routing different components to different pages
+>npm i react-currency-format   //This will allow you to go ahead an show money
                                 //If doesn't install then use 
                                 npm i react-currency-format --save --force
+//For sign in
+>npm i firebase                  //if doesn't work try
+                                //----------> npm config set legacy-peer-deps true
+                                //and then 'npm i firebase'
+
+.
+.
+.
+>firebase login
+>firebase init
+>Choose Hosting Configure files for firebase hosting(press spacebare then enter)
+>use existing project
+choose your project
+What do you want to use as your public directory?
+(Type build in front of it)
+
+AFter all that type >> npm run build
+
+//if 'npm run build' doesn't work then do 'npm install' and then try
+
+>firebase deploy
+
+
