@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.css'
 import SearchIcon from '@mui/icons-material/Search';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {Link} from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 import {auth} from "./firebase";
@@ -23,7 +23,6 @@ const handleAuthentication = () =>{
         <div className="header__search">
             <input className="header__searchInput" type="text"/>
             <SearchIcon className="header__searchIcon" />
-            {/*Logo*/}
         </div>
         <div className="header__nav">
             <Link to={!user && '/login'}> {/* If there is no user then only goto login page otherwise just sign out normally.*/}
@@ -43,7 +42,7 @@ const handleAuthentication = () =>{
             </div>
             <Link to='/checkout'>
                 <div className="header__optionBasket">
-                <ShoppingBasketIcon />
+                <ShoppingCartIcon/>
                 <span className="header__optionLineTwo header__basketCount">{basket.length}</span>
                 </div> 
             </Link>

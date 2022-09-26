@@ -10,7 +10,17 @@ Login
 Firebase Auth
 .
 .
-..
+Checkout Page(Payment page)
+Stripe Functionality
+create axios.js
+// - Cloud function to process stripe payment(serverless)
+Orders
+
+// - firebase for real-time database(Firestore)
+Goto to Firebase-> FireStore->Create Database
+
+
+MERN Stack
 
 
 >npx create-react-app app-name
@@ -33,14 +43,43 @@ Firebase Auth
 >firebase init
 >Choose Hosting Configure files for firebase hosting(press spacebare then enter)
 >use existing project
-choose your project
-What do you want to use as your public directory?
+//choose your project
+>What do you want to use as your public directory?
 (Type build in front of it)
 
-AFter all that type >> npm run build
+//AFter all that type >> npm run build
 
 //if 'npm run build' doesn't work then do 'npm install' and then try
 
 >firebase deploy
 
 
+//STRIPE Functionality
+>npm i @stripe/stripe-js
+>npm i @stripe/react-stripe-js
+//Copy publishable key from stripe.com
+
+>npm i axios     //very popular fetching library, so you can get/post request, allows you to interact with APIs very easily
+
+
+//After This
+>firebase init
+>Function Create Cloud....
+>JavaScript
+
+//This will create "functions" folder in your app
+//There's full back-end inside "functions" folder(another project inside your project)
+>cd functions
+
+//VERY IMPORTANT------- if you do 'npm install' at any point now, make sure you are inside the 'functions' folder.
+//Otherwise it will install things into your app and not your back-end.
+
+>npm i express
+>npm i cors
+>npm i stripe
+
+// - Now to test API emulator
+>firebase emulators:start
+// - YOU can visit the link in 'View in Emulator UI' section.
+
+// - Above that is functions[us-central1-api]: some link/api. Open it in browser to see the output such as "hello world"

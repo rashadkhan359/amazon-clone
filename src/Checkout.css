@@ -21,9 +21,9 @@
 }
 .checkout__right{
     max-width: 30%;
-    width: 320px;
+    flex:0.3;
 }
 .checkout__left{
     max-width: 70%;
-    width: 700px;
+    flex:0.7;
 }
