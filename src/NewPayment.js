@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Payment.css";
+//import "./Payment.css";
 import { Link, useNavigate } from "react-router-dom";
 import CheckoutProduct from "./CheckoutProduct";
 import { useStateValue } from "./StateProvider";
@@ -22,33 +22,45 @@ function Payment() {
   console.log("The total is>>>>>", Math.trunc(getBasketTotal(basket) * 100));
   //Stripe HOOKS
   const stripe = useStripe();
-  const elements = useElements();
+  let elements;
   /////
   const navigate = useNavigate();
   //Whenever basket changes, it will make this request and it will update the special stripe secret which allows us to charge the customer the correct amount.
   useEffect(() => {
     let moneyForStripe = Math.trunc(getBasketTotal(basket) * 100);
-    //generate the special stripe client secret that allows us to charge the customer
-    const getClientSecret = async () => {
+    initialize();
+    // Fetches a payment intent and captures the client secret
+    async function initialize() {
+      console.log("Initial Client Secret is >>>> ", clientSecret);
+      //generate the special stripe client secret that allows us to charge the customer
       const response = await axios({
         method: "post",
         //Stripe expects the total in a currencies subunits, hence * 100
         url: `/payments/create?total=${moneyForStripe}`,
       });
-      setClientSecret(response.data.clientSecret);
-    };
-    getClientSecret();
+      setClientSecret(response.data.clientSecret /*response.json()*/);
+      console.log("The Client Secret is >>>> ", clientSecret);
+      const appearance = {
+        theme: "stripe",
+      };
+      elements = stripe.elements({ appearance, clientSecret });
+
+      const paymentElement = elements.create("payment");
+      paymentElement.mount("#payment-element");
+    }
   }, basket);
   ////////
-  console.log("The Client Secret is >>>> ", clientSecret);
+
   const handleSubmit = async (event) => {
     //do all fancy stripe stuff...
     event.preventDefault(); //stops from refreshing
     setProcessing(true); //helps in stopping user to click Buy button multiple time while processing. basically disbales the button after one use.
-    const payload = await stripe
-      .confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
+    const { error } = await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          // Make sure to change this to your payment completion page
+          return_url: "http://localhost:3000/orders",
         },
       })
       .then(async ({ paymentIntent }) => {
@@ -80,8 +92,19 @@ function Payment() {
           type: "EMPTY_BASKET",
         });
         //Move to orders page, not at the payment page again. Duh...
-        navigate("/orders");
+        //navigate("/orders");
       });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === "card_error" || error.type === "validation_error") {
+      console.log("Card/Validation Error Occured:", error.message);
+    } else {
+      console.log("An unexpected error occurred.");
+    }
   };
 
   const handleChange = (event) => {
@@ -135,17 +158,17 @@ function Payment() {
           <div className="payment__details">
             {/* Stripe Magic Happens here */}
             <form onSubmit={handleSubmit}>
-              <CardElement onChange={handleChange} />
+              <div id="payment-element" onChange={handleChange}>
+                {/* Stripe.js injects the Payment Element */}
+              </div>
               <div className="payment__priceContainer">
                 <CurrencyFormat
-                  renderText={(value) => (
-                      <h3>Order Total: ₹{value}</h3>
-                  )}
+                  renderText={(value) => <h3>Order Total: ${value}</h3>}
                   decimalScale={2}
                   value={getBasketTotal(basket)}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefic={"₹"}
+                  prefic={"$"}
                 />
 
                 <button disabled={processing || disabled || succeeded}>

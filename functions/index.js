@@ -24,6 +24,9 @@ app.post("/payments/create", async (request, response) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: total, //subunits of the currency
     currency: "inr",
+    automatic_payment_methods: {
+      enabled: true,
+    },
   });
   // - 201 => OK - Created
   response.status(201).send({
@@ -31,4 +34,5 @@ app.post("/payments/create", async (request, response) => {
   });
 });
 // - Listen command
+//app.listen(4242, () => console.log("Node server listening on port 4242!"));
 exports.api = functions.https.onRequest(app);

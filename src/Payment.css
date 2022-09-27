@@ -49,3 +49,6 @@
     cursor: pointer;
     box-shadow: 0 0 2px #9b9ea1;
 }
+.payment__details > form > div > button:disabled{
+    background:rgba(195, 195, 195, 0.5);
+}

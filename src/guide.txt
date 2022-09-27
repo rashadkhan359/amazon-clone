@@ -99,3 +99,10 @@ MERN Stack
 >npm run build
 >firebase deploy --only hosting                //hosting is front-end, functions is back-end
 
+
+
+// - SLIDESHOW
+Slideshow.js
+Slideshow.scss
+slideshow-data.js
+>npm install react-icons --save
