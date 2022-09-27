@@ -2,7 +2,7 @@ import React from 'react';
 import './CheckoutProduct.css';
 import { useStateValue } from './StateProvider';
 
-function CheckoutProduct({ id, title, image, price, rating }) {
+function CheckoutProduct({ id, title, image, price, rating, hideButton }) {
     const [{basket}, dispatch] = useStateValue();
 
     const removeFromBasket = ()=> {
@@ -23,9 +23,13 @@ function CheckoutProduct({ id, title, image, price, rating }) {
                 <strong>{price}</strong>
             </p>
             <div className="checkoutProduct__rating">
-                {Array(rating).fill().map((_,i)=>(<p>🌟</p>))}
+                {Array(rating).fill().map((_,i)=>(<p>⭐</p>))}
             </div>
-            <button onClick={removeFromBasket}>Remove from Basket</button>
+            {/* Only render this button if it's not hidden. helps to reuse this component in orders page. */}
+            {!hideButton && (
+                <button onClick={removeFromBasket}>Remove from Basket</button>
+            )}
+            
         </div>
     </div>
   )

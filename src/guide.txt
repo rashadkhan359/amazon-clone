@@ -83,3 +83,19 @@ MERN Stack
 // - YOU can visit the link in 'View in Emulator UI' section.
 
 // - Above that is functions[us-central1-api]: some link/api. Open it in browser to see the output such as "hello world"
+>npm install --save react-firebase-hooks     //As the video wala tareeka didn't work
+>npm install moment    //Moment is a handy library for passing timestamp
+
+// - After Finishing Up
+// - For Deploying
+
+>firebase deploy --only functions            //make sure you are in the functions folder
+
+// - After Deploying, goto Firebase > Function on the website and copy the http request link.
+// - Paste that link in axios.js under baseURL(comment the localhost one)
+
+
+// - For build, go to app folder
+>npm run build
+>firebase deploy --only hosting                //hosting is front-end, functions is back-end
+

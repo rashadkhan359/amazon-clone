@@ -8,7 +8,7 @@ import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
 import axios from "./axios";
 import { db } from "./firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -27,24 +27,20 @@ function Payment() {
   const navigate = useNavigate();
   //Whenever basket changes, it will make this request and it will update the special stripe secret which allows us to charge the customer the correct amount.
   useEffect(() => {
+    let moneyForStripe = Math.trunc(getBasketTotal(basket) * 100);
     //generate the special stripe client secret that allows us to charge the customer
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
         //Stripe expects the total in a currencies subunits, hence * 100
-        url: `/payments/create?total=${Math.trunc(
-          getBasketTotal(basket) * 100
-        )}`,
+        url: `/payments/create?total=${moneyForStripe}`,
       });
-
       setClientSecret(response.data.clientSecret);
     };
-
     getClientSecret();
   }, basket);
   ////////
-
-  console.log("The Secret is>>>", clientSecret);
+  console.log("The Client Secret is >>>> ", clientSecret);
   const handleSubmit = async (event) => {
     //do all fancy stripe stuff...
     event.preventDefault(); //stops from refreshing
@@ -55,40 +51,34 @@ function Payment() {
           card: elements.getElement(CardElement),
         },
       })
-      .then(({ paymentIntent }) => {
+      .then(async ({ paymentIntent }) => {
         //paymentIntent = payment confirmation
-        console.log("I was called and didn't do shit", collection("users"))
-        //NoSQL Type retrieval of data
-        const paymentRef = doc(
-          db,
-          collection("users"),
-          user.uid,
-          collection("orders"),
-          paymentIntent.id
-        );
-        
-        setDoc(paymentRef, {
-          basket: basket,
-          amount: paymentIntent.amount,
-          created: paymentIntent.created,
-        });
-        // db.collection("users")
-        //   .doc(user?.uid)
-        //   .collection("orders")
-        //   .doc(paymentIntent.id)
-        //   .set({
-        //     basket: basket,
-        //     amount: paymentIntent.amount,
-        //     created: paymentIntent.created,
-        //   });
 
+        //NoSQL Type retrieval of data
+        try {
+          const paymentRef = doc(
+            db,
+            "users",
+            user?.uid,
+            "orders",
+            paymentIntent.id
+          );
+
+          await setDoc(paymentRef, {
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created,
+          });
+        } catch (e) {
+          console.error("Error adding orders to database: ", e);
+        }
         setSucceeded(true);
         setError(null);
         setProcessing(false);
 
-        // dispatch({
-        //   type: "EMPTY_BASKET",
-        // });
+        dispatch({
+          type: "EMPTY_BASKET",
+        });
         //Move to orders page, not at the payment page again. Duh...
         navigate("/orders");
       });
@@ -100,6 +90,7 @@ function Payment() {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
   };
+
   return (
     <div className="payment">
       <div className="payment__container">
@@ -110,11 +101,11 @@ function Payment() {
         <div className="payment__section">
           <div className="payment__title">
             <h3>Delivery Address</h3>
-            <div className="payment__address">
-              <p>{user?.email}</p>
-              <p>123, Chaurangi Lane</p>
-              <p>New Delhi, India</p>
-            </div>
+          </div>
+          <div className="payment__address">
+            <p>{user?.email}</p>
+            <p>123, Chaurangi Lane</p>
+            <p>New Delhi, India</p>
           </div>
         </div>
 
@@ -148,9 +139,7 @@ function Payment() {
               <div className="payment__priceContainer">
                 <CurrencyFormat
                   renderText={(value) => (
-                    <>
                       <h3>Order Total: ${value}</h3>
-                    </>
                   )}
                   decimalScale={2}
                   value={getBasketTotal(basket)}

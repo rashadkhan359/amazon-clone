@@ -49,6 +49,7 @@
     border:1.5px solid;
     /* border-color: #a88734 #9c7e31 #846a29; */
     border-color: darkgrey;
+    transition: all .3s ease-in-out;
 }
 
 .login__TopContainer > p{
@@ -78,10 +79,12 @@
 .login__signInButton:hover{
     background:rgba(240, 193, 50, 1);
     box-shadow: 0 0 2px #9b9ea1;
+    cursor: pointer;
 }
 .login__registerButton:hover {
     background:rgba(195, 195, 195, 0.5);
     box-shadow: 0 0 2px #9b9ea1;
+    cursor:pointer;
 }
 
 .login__TopContainer > form > input:focus, .login__signInButton:focus, .login__registerButton:focus{

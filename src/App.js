@@ -14,7 +14,7 @@ import Orders from "./Orders";
 
 //Stripe KEy, no need to hide
 const promise = loadStripe('pk_test_dMedZ8RG75Z6EwiJlqr1ZY3O');
-
+console.log("Promise is: ", promise);
 function App() {
   const [{}, dispatch] = useStateValue();
 
