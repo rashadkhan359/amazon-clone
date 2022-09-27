@@ -106,3 +106,7 @@ Slideshow.js
 Slideshow.scss
 slideshow-data.js
 >npm install react-icons --save
+
+
+
+// - Adding Products to database

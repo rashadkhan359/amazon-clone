@@ -12,6 +12,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Orders from "./Orders";
 import Slideshow from "./Slideshow";
+import AddProduct from "./admin/AddProduct";
 
 //Stripe KEy, no need to hide
 const promise = loadStripe('pk_test_dMedZ8RG75Z6EwiJlqr1ZY3O');
@@ -91,6 +92,14 @@ function App() {
               <>
                 <Header />
                 <Orders/>
+              </>
+            }
+          />
+          <Route
+            path="/admin/addproducts"
+            element={
+              <>
+                <AddProduct/>
               </>
             }
           />
