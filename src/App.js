@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { useEffect } from "react";
 import Header from "./Header";
-import Home from "./Home";
+import Newhome from "./Newhome";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Checkout from "./Checkout";
 import Login from "./Login";
@@ -71,7 +71,7 @@ function App() {
             element={
               <>
                 <Header />
-                <Home />
+                <Newhome />
               </>
             }
           />

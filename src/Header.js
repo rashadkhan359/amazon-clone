@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 import { auth } from "./firebase";
 
 function Header() {
   const [{ basket, user }, dispatch] = useStateValue();
+  const [menuToggle, setMenuToggle] = useState(false);
 
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();
     }
   };
-  
+  const handleMenu = () => {
+    if (!menuToggle) {
+      setMenuToggle(true);
+    } else {
+      setMenuToggle(false);
+    }
+  };
   return (
     <div className="header">
       <Link to="/">
@@ -29,8 +38,14 @@ function Header() {
         <input className="header__searchInput" type="text" />
         <SearchIcon className="header__searchIcon" />
       </div>
-      <div className="header__nav">
-        
+      <div className="header__menu">
+        {menuToggle ? (
+          <CloseIcon className="header__menu__menuIcon" onClick={handleMenu} />
+        ) : (
+          <MenuIcon className="header__menu__menuIcon" onClick={handleMenu} />
+        )}
+      </div>
+      <div className={menuToggle ? "header__nav open" : "header__nav"}>
         <Link to={!user && "/login"}>
           {" "}
           {/* If there is no user then only goto login page otherwise just sign out normally.*/}
@@ -64,7 +79,6 @@ function Header() {
             </span>
           </div>
         </Link>
-
       </div>
     </div>
   );

@@ -24,8 +24,10 @@
 .slide img{
     z-index: -1;
     margin-bottom: -100px;
-    height: 100%;
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0));
 }
 
 .content{
@@ -43,7 +45,6 @@
     animation: slide-up 1s ease-in-out 0.5s;
     animation-fill-mode: forwards;
 }
-
 @keyframes slide-up{
     0%{
         visibility: hidden;
@@ -56,22 +57,13 @@
         top: 7rem;
     }
 }
-
-/* @media  screen and (max-width:600px) {
-    .content{
-        width:40%;
-    }
-} */
 .content > *{
     color:white;
     margin-bottom: 1rem;
 }
-
-
-
 .arrow{
     border: 2px solid #fff;
-    /* border-radius: 50%; */
+    border-radius: 5px;
     background: transparent;
     color: #fff;
     width: 2rem;
@@ -79,25 +71,68 @@
     height: 5rem;
     cursor: pointer;
     position: absolute;
-    z-index: 999;
+    z-index: 50;
 }
-
 .arrow:hover{
-    background: rgba(255, 255, 255, 0.464);
+    background: rgba(255, 255, 255, 0.693);
     color: #777;
     border: 2px solid #777;
 }
-
+.arrow__button{
+    color: #dfa762;
+    cursor: pointer;
+}
+.content > button{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 0;
+}
 .next{
     right:0.5rem;
 }
-
 .prev{
     left:0.5rem;
 }
-
 hr{
     height: 2px;
     background: white;
     width:50%;
+}
+@media  screen and (max-width:800px) {
+   .content{
+    display: none;
+   }
+   .slider{
+    height: 50vh;
+   }
+   .arrow{
+    top:14vh;
+    height: 2rem;
+   }
+}
+@media  screen and (max-width:700px) {
+    .slider{
+        height: 40vh;
+    }
+    .slide img{
+        mask-image:none;
+    }
+}
+
+@media  screen and (max-width:550px) {
+    .slider{
+        height: 30vh;
+    }
+    .arrow{
+        top:12vh;
+       }
+}
+@media  screen and (max-width:430px) {
+    .slider{
+        height: 20vh;
+    }
+    .arrow{
+        top:6.3vh;
+       }
 }

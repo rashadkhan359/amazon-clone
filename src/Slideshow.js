@@ -7,7 +7,7 @@ function Slideshow() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideLength = sliderData.length;
 
-    const autoScroll  = true;
+    const autoScroll  = false;
     let slideInterval;
     let intervalTime = 5000;
     const nextSlide = () =>{
@@ -44,7 +44,11 @@ function Slideshow() {
                             <h2>{slide.heading}</h2>
                             <p>{slide.desc}</p>
                             <hr/>
-                            <button className="sliderContent_button">Buy Now</button>
+                            <button className="sliderContent_button">
+                            <IoIosArrowForward className="arrow__button"/>
+                            <IoIosArrowForward className="arrow__button"/>
+                            <IoIosArrowForward className="arrow__button"/>
+                            </button>
                         </div>
                         </>
                     )}

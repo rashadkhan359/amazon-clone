@@ -32,14 +32,6 @@ function Login() {
             navigate('/');
         }
     }).catch(error => alert(error.message))
-
-    //Other-Way to do is this
-    // try{
-    //     await createUser(email, password);
-    // }catch(e){
-    //     console.log(e.message);
-    // }
-
   }
   return (
     <div className="login">
